@@ -25,32 +25,33 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Cache Gradle
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: gradle-
+      - name: Accept licenses & install components
+        run: |
+          export ANDROID_HOME="$ANDROID_SDK_ROOT"
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0"
 
       - name: Grant execute permission
         run: chmod +x gradlew
 
       - name: Build debug APK
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Build release APK
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleRelease --no-daemon --stacktrace
 
       - name: Upload debug APK
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ITCareTV-debug
           path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: warn
 
       - name: Upload release APK
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ITCareTV-release
           path: app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: warn
