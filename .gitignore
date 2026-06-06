@@ -3,6 +3,11 @@ app/build/
 *.apk
 *.aab
 
+# Signing
+*.keystore
+*.jks
+release.keystore
+
 # Gradle
 .gradle/
 gradle-app.setting
