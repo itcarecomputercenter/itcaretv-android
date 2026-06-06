@@ -45,7 +45,7 @@ jobs:
           echo "sdk.dir=$ANDROID_HOME" > "$GITHUB_WORKSPACE/local.properties"
 
       - name: Write keystore
-        run: echo "${{ secrets.KEYSTORE_B64 }}" | base64 -d > app/release.keystore
+        run: echo "${{ secrets.KEYSTORE_P12_B64 }}" | base64 -d > app/release.keystore.p12
 
       - name: Grant execute permission
         run: chmod +x gradlew

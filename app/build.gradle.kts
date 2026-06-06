@@ -18,10 +18,11 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("release.keystore")
+            storeFile = file("release.keystore.p12")
             storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "itcaretv2026"
             keyAlias = System.getenv("KEY_ALIAS") ?: "itcaretv"
             keyPassword = System.getenv("KEY_PASSWORD") ?: "itcaretv2026"
+            storeType = "PKCS12"
         }
     }
 
